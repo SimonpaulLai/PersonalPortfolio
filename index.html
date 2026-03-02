@@ -4,82 +4,125 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>賴柏澔 Bo-Hao Lai | Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Serif+TC:wght@500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #2c3e50;
-            --accent-color: #3498db;
-            --text-color: #333;
-            --bg-color: #f8f9fa;
-            --card-bg: #ffffff;
+            --bg-light: #f5f5f7; /* Apple Classic Light Gray */
+            --bg-white: #ffffff;
+            --text-main: #1d1d1f;
+            --text-sub: #86868b;
+            --accent: #0066cc;
+            --card-shadow: 0 8px 30px rgba(0,0,0,0.04);
+            --transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            line-height: 1.6; color: var(--text-color); background-color: var(--bg-color); scroll-behavior: smooth;
+            font-family: 'Inter', 'Noto Sans TC', -apple-system, sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            line-height: 1.7;
+            scroll-behavior: smooth;
         }
 
-        /* Navigation */
+        /* Navigation - Glassmorphism */
         nav {
-            position: sticky; top: 0; background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px); padding: 1rem 5%;
+            position: sticky; top: 0; background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: saturate(180%) blur(20px);
+            padding: 0.8rem 8%;
             display: flex; justify-content: space-between; align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05); z-index: 1000;
+            z-index: 1000; border-bottom: 1px solid rgba(0,0,0,0.05);
         }
-        .logo { font-weight: 600; font-size: 1.2rem; text-decoration: none; color: var(--primary-color); }
+
+        .logo { 
+            font-weight: 600; font-size: 1.1rem; text-decoration: none; 
+            color: var(--text-main); letter-spacing: -0.5px;
+        }
+
         nav ul { display: flex; list-style: none; }
-        nav ul li { margin-left: 20px; }
-        nav a { text-decoration: none; color: var(--text-color); font-size: 0.85rem; }
+        nav ul li { margin-left: 25px; }
+        nav a { text-decoration: none; color: var(--text-sub); font-size: 0.85rem; transition: var(--transition); }
+        nav a:hover { color: var(--text-main); }
 
-        /* Hero */
-        header { padding: 120px 5% 60px; max-width: 1000px; margin: 0 auto; text-align: center; min-height: 45vh; }
-        #dynamic-name { font-size: 3.2rem; color: var(--primary-color); height: 90px; font-weight: 600; transition: opacity 0.5s; }
-        .hero-subtitle { font-size: 1.2rem; color: #666; margin-bottom: 25px; }
-        .hero-links a { margin: 0 15px; text-decoration: none; color: var(--accent-color); font-weight: 600; }
+        /* Hero Section */
+        header { 
+            padding: 160px 8% 100px; text-align: center; background-color: var(--bg-white);
+        }
+        #dynamic-name { 
+            font-family: 'Noto Serif TC', serif; font-size: 3.5rem; 
+            font-weight: 600; height: 100px; opacity: 1; transition: var(--transition);
+            letter-spacing: -1px; margin-bottom: 10px;
+        }
+        .hero-subtitle { 
+            font-size: 1.25rem; font-weight: 300; color: var(--text-sub); 
+            margin-bottom: 30px; letter-spacing: 2px;
+        }
+        .hero-links a { 
+            margin: 0 12px; text-decoration: none; color: var(--text-main); 
+            font-size: 0.9rem; border-bottom: 1px solid transparent; transition: var(--transition);
+            padding-bottom: 4px;
+        }
+        .hero-links a:hover { border-bottom: 1px solid var(--text-main); }
 
-        section { padding: 60px 5%; max-width: 1000px; margin: 0 auto; }
-        h2 { border-left: 5px solid var(--accent-color); padding-left: 15px; margin-bottom: 40px; color: var(--primary-color); }
+        /* Section Layouts */
+        section { padding: 100px 8%; max-width: 1200px; margin: 0 auto; }
+        section:nth-child(even) { background-color: var(--bg-white); max-width: 100%; }
+        
+        .section-inner { max-width: 900px; margin: 0 auto; }
+        
+        h2 { 
+            font-size: 0.85rem; text-transform: uppercase; letter-spacing: 4px; 
+            color: var(--text-sub); margin-bottom: 50px; text-align: center;
+        }
 
-        /* Education */
-        .cv-item { margin-bottom: 35px; }
-        .cv-header { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; }
-        .cv-title { font-weight: 600; font-size: 1.2rem; color: var(--primary-color); display: block; }
-        .cv-dept { font-size: 0.95rem; color: #666; display: block; margin-top: 2px; }
-        .cv-date { color: #888; font-size: 0.9rem; }
-        .cv-detail-group { margin-top: 10px; font-size: 0.9rem; color: #555; }
-        .grad-note { display: block; margin-top: 8px; font-size: 0.9rem; color: #777; }
+        /* Cards Style */
+        .card {
+            background: var(--bg-white); border-radius: 18px; padding: 40px;
+            box-shadow: var(--card-shadow); margin-bottom: 30px;
+            transition: var(--transition); border: 1px solid rgba(0,0,0,0.02);
+        }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 40px rgba(0,0,0,0.08); }
 
-        /* Projects */
-        .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
-        .project-card { background: var(--card-bg); border-radius: 12px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); height: 100%; display: flex; flex-direction: column; }
-        .project-tag { font-size: 0.75rem; color: var(--accent-color); font-weight: 600; text-transform: uppercase; margin-bottom: 5px; display: block; }
-        .project-date { font-size: 0.85rem; color: #999; margin-bottom: 10px; display: block; }
-        .project-card h4 { margin-bottom: 10px; color: var(--primary-color); font-size: 1.15rem; }
-        .project-card p { font-size: 0.9rem; color: #555; flex-grow: 1; margin-bottom: 15px; }
-        .project-links a { font-size: 0.85rem; color: var(--accent-color); text-decoration: none; margin-right: 15px; font-weight: 600; }
+        /* Education & Experience Items */
+        .cv-item { margin-bottom: 40px; }
+        .cv-header { display: flex; justify-content: space-between; margin-bottom: 12px; }
+        .cv-title { font-size: 1.2rem; font-weight: 600; color: var(--text-main); }
+        .cv-date { color: var(--text-sub); font-size: 0.9rem; }
+        .cv-detail { color: #444; margin-bottom: 8px; }
+        .grad-note { 
+            display: inline-block; font-size: 0.85rem; background: #fef9c3; 
+            padding: 2px 10px; border-radius: 4px; color: #854d0e; font-weight: 500;
+        }
 
-        /* Skills Tags */
-        .skills-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; }
-        .skill-group h4 { font-size: 1rem; color: var(--primary-color); margin-bottom: 12px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
-        .tag-box { display: flex; flex-wrap: wrap; gap: 8px; }
-        .skill-tag { background: #eef2f7; color: #5d6d7e; padding: 4px 12px; border-radius: 6px; font-size: 0.8rem; border: 1px solid #d5dbdb; }
+        /* Project Grid */
+        h3.cat-label { font-size: 0.75rem; color: var(--text-sub); margin: 40px 0 20px; letter-spacing: 2px; }
+        .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        .project-card { 
+            background: var(--bg-light); border-radius: 16px; padding: 30px; 
+            display: flex; flex-direction: column; height: 100%;
+        }
+        .project-card h4 { font-size: 1.1rem; margin-bottom: 15px; }
+        .project-card p { font-size: 0.9rem; color: #555; flex-grow: 1; margin-bottom: 20px; }
+        .project-links a { font-size: 0.8rem; font-weight: 600; color: var(--accent); text-decoration: none; margin-right: 15px; }
 
-        /* Experience */
-        .exp-item { margin-bottom: 30px; }
-        .exp-role { font-size: 1.25rem; font-weight: 600; color: var(--primary-color); display: block; }
-        .exp-event { font-size: 1.05rem; color: var(--accent-color); font-weight: 500; margin: 4px 0; display: block; }
-        .exp-meta { font-size: 0.85rem; color: #888; margin-bottom: 8px; display: block; }
-        .exp-desc { list-style: inside; font-size: 0.95rem; color: #555; padding-left: 5px; }
+        /* Skills Grid */
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 40px; }
+        .skill-cat h4 { font-size: 0.9rem; margin-bottom: 15px; color: var(--text-main); border-bottom: 1px solid #eee; padding-bottom: 8px; }
+        .skill-list { list-style: none; font-size: 0.85rem; color: var(--text-sub); }
+        .skill-list li { margin-bottom: 6px; }
 
-        /* Shortcut Area */
-        .empty-state { background: #f0f0f0; border: 2px dashed #ddd; padding: 40px; text-align: center; border-radius: 12px; color: #aaa; }
+        /* Shortcuts Placeholder */
+        .placeholder { 
+            border: 1px dashed #ddd; padding: 60px; text-align: center; 
+            border-radius: 18px; color: var(--text-sub); font-style: italic;
+        }
 
-        footer { text-align: center; padding: 60px; font-size: 0.8rem; color: #888; border-top: 1px solid #eee; }
+        footer { text-align: center; padding: 80px 0; font-size: 0.75rem; color: var(--text-sub); letter-spacing: 1px; }
 
-        @media (max-width: 600px) {
+        @media (max-width: 768px) {
             #dynamic-name { font-size: 2.2rem; }
             nav ul { display: none; }
+            .cv-header { flex-direction: column; }
         }
     </style>
 </head>
@@ -88,186 +131,155 @@
     <nav>
         <a href="#top" class="logo">Simonpaul Lai</a>
         <ul>
-            <li><a href="#education">教育</a></li>
+            <li><a href="#background">背景</a></li>
             <li><a href="#projects">專案</a></li>
             <li><a href="#skills">技能</a></li>
             <li><a href="#shortcuts">Shortcuts</a></li>
-            <li><a href="#experience">經驗</a></li>
+            <li><a href="#experience">經歷</a></li>
         </ul>
     </nav>
 
     <header>
         <div id="dynamic-name">賴柏澔</div>
-        <p class="hero-subtitle">NTNU GLIS 碩士班 (碩一) | MA Candidate</p>
+        <p class="hero-subtitle">NTNU GLIS 1st | 跨領域學生</p>
         <div class="hero-links">
             <a href="mailto:ck1050668@gmail.com">Email</a>
             <a href="https://github.com/SimonpaulLai" target="_blank">GitHub</a>
-            <a href="CV_BoHaoLai.pdf" target="_blank">CV (PDF)</a>
+            <a href="CV_BoHaoLai.pdf" download>Download CV</a>
         </div>
     </header>
 
-    <section id="education">
-        <h2>教育背景</h2>
-        <div class="cv-item">
-            <div class="cv-header">
-                <div>
-                    <span class="cv-title">國立臺灣師範大學 (NTNU)</span>
-                    <span class="cv-dept">圖書資訊學研究所 碩士班</span>
+    <section id="background">
+        <div class="section-inner">
+            <h2>教育背景</h2>
+            <div class="card">
+                <div class="cv-item">
+                    <div class="cv-header">
+                        <span class="cv-title">國立臺灣師範大學 | 圖書資訊學研究所</span>
+                        <span class="cv-date">2025.09 – 2027.06</span>
+                    </div>
+                    <p class="cv-detail">核心領域：AI 應用研究。</p>
                 </div>
-                <span class="cv-date">2025.09 – 2027.06 (預計)</span>
-            </div>
-            <div class="cv-detail-group">
-                核心領域：AI 應用研究。
-            </div>
-        </div>
-
-        <div class="cv-item">
-            <div class="cv-header">
-                <div>
-                    <span class="cv-title">國立臺灣師範大學 (NTNU)</span>
-                    <span class="cv-dept">學習科學學士學位學程 (雙主修：英語系)</span>
+                <div class="cv-item" style="margin-bottom: 0;">
+                    <div class="cv-header">
+                        <span class="cv-title">國立臺灣師範大學 | 學習科學 (雙主修：英語)</span>
+                        <span class="cv-date">2020.09 – 2025.01</span>
+                    </div>
+                    <p class="cv-detail">核心：程式設計、AI、資料視覺化、教育心理、統計 / 英語演講、簡報、寫作、數位敘事</p>
+                    <span class="grad-note">提早於 4.5 年（大五上）修畢雙學位學分。</span>
                 </div>
-                <span class="cv-date">2020.09 – 2025.01</span>
             </div>
-            <div class="cv-detail-group">
-                <strong>核心領域（主修）：</strong>程式設計、AI、資料視覺化<br>教育心理、統計<br><br>
-                <strong>核心領域（雙主修）：</strong>英語演講、簡報、寫作<br>數位敘事
-            </div>
-            <span class="grad-note">畢業表現：提早於 4.5 年（大五上）修畢雙學位學分。</span>
         </div>
     </section>
 
     <section id="projects">
-        <h2>專案經歷</h2>
-        
-        <div class="project-grid">
-            <div class="project-card">
-                <span class="project-tag">系統開發 / 遊戲</span>
-                <span class="project-date">2025.07 – 2026.01</span>
-                <h4>英語字彙學習遊戲 (跨平台版本)</h4>
-                <p>整合學習科學理論，針對單字學習痛點設計遊戲化互動機制，完成 Desktop 與 Mobile 雙端優化。</p>
-                <div class="project-links">
-                    <a href="https://simonpaullai.github.io/5kVocabulary" target="_blank">Demo</a>
+        <div class="section-inner">
+            <h2>專案經歷</h2>
+            
+            <h3 class="cat-label">System Development / AI</h3>
+            <div class="project-grid">
+                <div class="project-card">
+                    <h4>「安心記」銀髮照護 AI 日誌</h4>
+                    <p>整合生理檢查數據，利用 AI 自動生成第一人稱生活日誌與 Q 版圖片，解決家屬溝通斷層。</p>
+                    <div class="project-links"><a href="https://github.com/Grandparents666" target="_blank">GitHub</a></div>
+                </div>
+                <div class="project-card">
+                    <h4>英語字彙學習遊戲 (Web)</h4>
+                    <p>結合學習科學理論，透過 JS 與響應式設計優化行動端介面，打造遊戲化互動機制。</p>
+                    <div class="project-links"><a href="https://simonpaullai.github.io/5kVocabulary" target="_blank">Demo</a></div>
+                </div>
+                <div class="project-card">
+                    <h4>Socratic LineBot</h4>
+                    <p>開發蘇格拉底式引導教學機器人，透過 Python 與對話邏輯協助使用者深度思考。</p>
+                    <div class="project-links"><span>Python / NLP</span></div>
                 </div>
             </div>
 
-            <div class="project-card">
-                <span class="project-tag">系統開發 / AI</span>
-                <span class="project-date">2025.02 – 2025.06</span>
-                <h4>「安心記」銀髮照護 AI 日誌系統</h4>
-                <p>清福養老院合作案。利用 AI 自動生成第一人稱生活日誌，解決中高齡家屬溝通斷層。</p>
-                <div class="project-links">
-                    <a href="https://github.com/Grandparents666" target="_blank">GitHub</a>
-                </div>
-            </div>
-
-            <div class="project-card">
-                <span class="project-tag">數位行銷 / 敘事</span>
-                <span class="project-date">2024.05</span>
-                <h4>Fu Tea：永續茶園品牌敘事網站</h4>
-                <p>結合英語寫作與行銷，針對 SDG 12 進行宜蘭茶園數位轉型敘事設計。</p>
-                <div class="project-links">
-                    <a href="https://40911011e.wixsite.com/fu-tea" target="_blank">Visit Site</a>
-                </div>
-            </div>
-
-            <div class="project-card">
-                <span class="project-tag">系統開發 / Python</span>
-                <span class="project-date">2022.09 – 2024.06</span>
-                <h4>Socratic LineBot (畢業專題)</h4>
-                <p>開發蘇格拉底式引導教學機器人，透過對話邏輯協助使用者進行深度思考。</p>
-                <div class="project-links">
-                    <span>Python / NLP</span>
+            <h3 class="cat-label">Digital Marketing</h3>
+            <div class="project-grid">
+                <div class="project-card">
+                    <h4>Fu Tea：永續茶園品牌網站</h4>
+                    <p>結合英語寫作與品牌行銷，針對宜蘭永續茶園進行 SDG 12 數位轉型敘事設計。</p>
+                    <div class="project-links"><a href="https://40911011e.wixsite.com/fu-tea" target="_blank">Visit Site</a></div>
                 </div>
             </div>
         </div>
     </section>
 
     <section id="skills">
-        <h2>專業技能</h2>
-        <div class="skills-container">
-            <div class="skill-group">
-                <h4>語言與國際溝通</h4>
-                <div class="tag-box">
-                    <span class="skill-tag">TOEIC 935</span>
-                    <span class="skill-tag">英語演講</span>
-                    <span class="skill-tag">數位敘事寫作</span>
-                </div>
-            </div>
-            <div class="skill-group">
-                <h4>程式開發與 IT</h4>
-                <div class="tag-box">
-                    <span class="skill-tag">Python</span>
-                    <span class="skill-tag">JavaScript</span>
-                    <span class="skill-tag">iOS Shortcuts</span>
-                    <span class="skill-tag">Git</span>
-                    <span class="skill-tag">API 串接</span>
-                </div>
-            </div>
-            <div class="skill-group">
-                <h4>AI 工具與實務</h4>
-                <div class="tag-box">
-                    <span class="skill-tag">Prompt Engineering</span>
-                    <span class="skill-tag">Vibe Coding</span>
-                    <span class="skill-tag">NLP 應用</span>
-                </div>
-            </div>
-            <div class="skill-group">
-                <h4>設計與分析</h4>
-                <div class="tag-box">
-                    <span class="skill-tag">視覺行為分析</span>
-                    <span class="skill-tag">資料視覺化</span>
-                    <span class="skill-tag">課程設計</span>
+        <div class="section-inner">
+            <h2>專業技能</h2>
+            <div class="card">
+                <div class="skills-grid">
+                    <div class="skill-cat">
+                        <h4>語言與溝通</h4>
+                        <ul class="skill-list"><li>TOEIC 935 (Gold)</li><li>英語公眾演說</li><li>數位敘事寫作</li></ul>
+                    </div>
+                    <div class="skill-cat">
+                        <h4>程式開發</h4>
+                        <ul class="skill-list"><li>Python (資料處理)</li><li>JavaScript (Web)</li><li>App 介面設計</li></ul>
+                    </div>
+                    <div class="skill-cat">
+                        <h4>系統與工具</h4>
+                        <ul class="skill-list"><li>Git 版本控制</li><li>API 串接概念</li><li>資料庫邏輯</li></ul>
+                    </div>
+                    <div class="skill-cat">
+                        <h4>設計分析</h4>
+                        <ul class="skill-list"><li>視覺行為分析</li><li>資料視覺化</li><li>課程設計</li></ul>
+                    </div>
+                    <div class="skill-cat">
+                        <h4>AI 實務</h4>
+                        <ul class="skill-list"><li>Vibe Coding</li><li>Prompt Engineering</li><li>NLP 應用</li></ul>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <section id="shortcuts">
-        <h2>iOS Shortcuts</h2>
-        <div class="empty-state">內容準備中，待上傳...</div>
+        <div class="section-inner">
+            <h2>iOS Shortcuts</h2>
+            <div class="placeholder">
+                <p>Developing... 待上傳內容</p>
+            </div>
+        </div>
     </section>
 
     <section id="experience">
-        <h2>工作與服務經驗</h2>
-        
-        <div class="exp-item">
-            <span class="exp-role">英語家教</span>
-            <span class="exp-meta">2025 – 至今</span>
-            <ul class="exp-desc">
-                <li>分析考題趨勢，制定個人化學習策略並監督執行。</li>
-            </ul>
-        </div>
-
-        <div class="exp-item">
-            <span class="exp-role">招生面試工作人員</span>
-            <span class="exp-event">NTNU 圖資所碩士班招生面試</span>
-            <span class="exp-meta">2026.02</span>
-            <ul class="exp-desc">
-                <li>負責考生報到、指引及協調面試流程應變。</li>
-            </ul>
-        </div>
-
-        <div class="exp-item">
-            <span class="exp-role">學生工作人員</span>
-            <span class="exp-event">2025 圖書資訊學實務研討會 (CoLISP 2025)</span>
-            <span class="exp-meta">2025.11.21</span>
-            <ul class="exp-desc">
-                <li>負責報到管理、接待產學界貴賓。</li>
-                <li>執行海報展人氣獎投票作業與計票。</li>
-                <li>負責論壇場次技術機動協助。</li>
-            </ul>
+        <div class="section-inner">
+            <h2>經歷</h2>
+            <div class="card">
+                <div class="cv-item">
+                    <div class="cv-header">
+                        <span class="cv-title">NTNU 圖資所碩士班招生面試 | 工作人員</span>
+                        <span class="cv-date">2026.02</span>
+                    </div>
+                </div>
+                <div class="cv-item">
+                    <div class="cv-header">
+                        <span class="cv-title">CoLISP 2025 實務研討會 | 工作人員</span>
+                        <span class="cv-date">2025.11</span>
+                    </div>
+                    <p class="cv-detail" style="font-size: 0.85rem; color: var(--text-sub);">負責報到管理、貴賓接待與海報展投票計票。</p>
+                </div>
+                <div class="cv-item" style="margin-bottom: 0;">
+                    <div class="cv-header">
+                        <span class="cv-title">英語家教</span>
+                        <span class="cv-date">2025 – 至今</span>
+                    </div>
+                    <p class="cv-detail" style="font-size: 0.85rem; color: var(--text-sub);">分析考題趨勢與制定個人化學習策略。</p>
+                </div>
+            </div>
         </div>
     </section>
 
     <footer>
-        <p>© 2026 Bo-Hao Lai. Built with Gemini & Vibe Coding.</p>
+        <p>DESIGNED BY BO-HAO LAI / 2026</p>
     </footer>
 
     <script>
-        // 名字動態交換
         const nameElement = document.getElementById('dynamic-name');
-        const names = ["賴柏澔", "Bo-Hao (Simonpaul) Lai"];
+        const names = ["賴柏澔", "Bo-Hao Lai", "Simonpaul Lai"];
         let currentIndex = 0;
 
         setInterval(() => {
@@ -277,7 +289,7 @@
                 nameElement.innerText = names[currentIndex];
                 nameElement.style.opacity = 1;
             }, 500);
-        }, 4000);
+        }, 3500);
     </script>
 </body>
 </html>
