@@ -14,168 +14,58 @@
             --card-bg: #ffffff;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             line-height: 1.6;
             color: var(--text-color);
             background-color: var(--bg-color);
+            scroll-behavior: smooth;
         }
 
-        /* Navigation */
         nav {
-            position: sticky;
-            top: 0;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            padding: 1rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            z-index: 1000;
+            position: sticky; top: 0; background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px); padding: 1rem 5%;
+            display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05); z-index: 1000;
         }
 
-        .logo {
-            font-weight: 600;
-            font-size: 1.2rem;
-            color: var(--primary-color);
-        }
+        .logo { font-weight: 600; font-size: 1.2rem; color: var(--primary-color); }
+        nav ul { display: flex; list-style: none; }
+        nav ul li { margin-left: 20px; }
+        nav a { text-decoration: none; color: var(--text-color); font-size: 0.9rem; }
 
-        nav ul {
-            display: flex;
-            list-style: none;
-        }
+        header { padding: 100px 5% 60px; max-width: 1000px; margin: 0 auto; text-align: center; }
+        .profile-title { font-size: 2.8rem; color: var(--primary-color); margin-bottom: 10px; }
+        .social-links a { margin: 0 10px; text-decoration: none; color: var(--accent-color); font-weight: 600; }
 
-        nav ul li {
-            margin-left: 20px;
-        }
+        section { padding: 60px 5%; max-width: 1000px; margin: 0 auto; }
+        h2 { border-left: 5px solid var(--accent-color); padding-left: 15px; margin-bottom: 30px; color: var(--primary-color); }
 
-        nav a {
-            text-decoration: none;
-            color: var(--text-color);
-            font-size: 0.9rem;
-            transition: color 0.3s;
-        }
-
-        nav a:hover {
-            color: var(--accent-color);
-        }
-
-        /* Hero Section */
-        header {
-            padding: 80px 5% 40px;
-            max-width: 1000px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .profile-title {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            color: var(--primary-color);
-        }
-
-        .profile-subtitle {
-            font-size: 1.1rem;
-            color: #666;
-            margin-bottom: 20px;
-        }
-
-        .social-links a {
-            margin: 0 10px;
-            text-decoration: none;
-            color: var(--accent-color);
-            font-weight: 600;
-        }
-
-        /* Section Styling */
-        section {
-            padding: 60px 5%;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        h2 {
-            border-bottom: 2px solid var(--accent-color);
-            display: inline-block;
-            margin-bottom: 30px;
-            padding-bottom: 5px;
-        }
+        /* Timeline / List Style */
+        .cv-item { margin-bottom: 25px; }
+        .cv-header { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; }
+        .cv-title { font-weight: 600; font-size: 1.1rem; color: var(--primary-color); }
+        .cv-date { color: #888; font-size: 0.9rem; }
+        .cv-desc { font-size: 0.95rem; color: #555; margin-top: 5px; }
 
         /* Skills Tags */
-        .skills-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .skill-tag {
-            background: #e1e8ed;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-        }
+        .skills-container { display: flex; flex-wrap: wrap; gap: 10px; }
+        .skill-tag { background: #e1e8ed; padding: 5px 15px; border-radius: 20px; font-size: 0.85rem; }
 
         /* Project Cards */
-        .project-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-        }
+        .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+        .project-card { background: var(--card-bg); border-radius: 12px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: 0.3s; }
+        .project-card:hover { transform: translateY(-5px); }
+        .project-card h3 { margin-bottom: 10px; color: var(--primary-color); }
+        .project-links a { font-size: 0.85rem; color: var(--accent-color); text-decoration: none; margin-right: 15px; font-weight: 600; }
 
-        .project-card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease;
-            display: flex;
-            flex-direction: column;
-        }
+        footer { text-align: center; padding: 60px; font-size: 0.8rem; color: #888; }
 
-        .project-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .project-card h3 {
-            margin-bottom: 10px;
-            color: var(--primary-color);
-        }
-
-        .project-card p {
-            font-size: 0.9rem;
-            color: #555;
-            flex-grow: 1;
-            margin-bottom: 15px;
-        }
-
-        .project-links a {
-            font-size: 0.85rem;
-            color: var(--accent-color);
-            text-decoration: none;
-            margin-right: 15px;
-            font-weight: 600;
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 40px;
-            font-size: 0.8rem;
-            color: #888;
-        }
-
-        /* Responsive Mobile */
         @media (max-width: 600px) {
-            .profile-title { font-size: 1.8rem; }
-            nav ul { display: none; } /* 簡化手機版導航 */
-            .project-grid { grid-template-columns: 1fr; }
+            .profile-title { font-size: 2rem; }
+            nav ul { display: none; }
+            .cv-header { flex-direction: column; }
         }
     </style>
 </head>
@@ -184,20 +74,63 @@
     <nav>
         <div class="logo">Simonpaul Lai</div>
         <ul>
-            <li><a href="#about">關於</a></li>
+            <li><a href="#about">教育</a></li>
+            <li><a href="#experience">經驗</a></li>
             <li><a href="#skills">技能</a></li>
             <li><a href="#projects">專案</a></li>
         </ul>
     </nav>
 
-    <header id="about">
+    <header id="hero">
         <h1 class="profile-title">賴柏澔 Bo-Hao Lai</h1>
-        <p class="profile-subtitle">跨領域研究者 | NTNU GLIS 碩士生 | AI 應用與學習科學</p>
+        <p style="font-size: 1.2rem; color: #666; margin-bottom: 20px;">跨領域研究者 | NTNU GLIS 碩士生 | AI 應用與學習科學</p>
         <div class="social-links">
             <a href="mailto:ck1050668@gmail.com">Email</a>
             <a href="https://github.com/SimonpaulLai" target="_blank">GitHub</a>
         </div>
     </header>
+
+    <section id="about">
+        <h2>教育背景</h2>
+        <div class="cv-item">
+            <div class="cv-header">
+                <span class="cv-title">國立臺灣師範大學 | 圖書資訊學研究所 碩士班</span>
+                <span class="cv-date">2025.09 – 2027.06 (預計)</span>
+            </div>
+            <p class="cv-desc">核心領域：AI 應用研究</p>
+        </div>
+        <div class="cv-item">
+            <div class="cv-header">
+                <span class="cv-title">國立臺灣師範大學 | 學習科學學士學位學程 (雙主修：英語系)</span>
+                <span class="cv-date">2020.09 – 2025.01</span>
+            </div>
+            <p class="cv-desc">核心領域：程式設計、AI、資料視覺化、教育心理、英語演講與數位敘事。提早於 4.5 年修畢雙學位。</p>
+        </div>
+    </section>
+
+    <section id="experience">
+        <h2>工作與服務經驗</h2>
+        <div class="cv-item">
+            <div class="cv-header">
+                <span class="cv-title">NTNU 圖資所碩士班招生面試 | 工作人員</span>
+                <span class="cv-date">2026.02</span>
+            </div>
+        </div>
+        <div class="cv-item">
+            <div class="cv-header">
+                <span class="cv-title">2025 圖書資訊學實務研討會 (CoLISP 2025) | 工作人員</span>
+                <span class="cv-date">2025.11</span>
+            </div>
+            <p class="cv-desc">負責貴賓接待、海報展投票計票及場次技術支援。</p>
+        </div>
+        <div class="cv-item">
+            <div class="cv-header">
+                <span class="cv-title">英語家教</span>
+                <span class="cv-date">2025 – 至今</span>
+            </div>
+            <p class="cv-desc">分析考題趨勢，制定個人化學習策略。</p>
+        </div>
+    </section>
 
     <section id="skills">
         <h2>專業技能</h2>
@@ -215,39 +148,34 @@
     <section id="projects">
         <h2>專案經歷</h2>
         <div class="project-grid">
-            
             <div class="project-card">
                 <h3>「安心記」銀髮照護 AI 系統</h3>
-                <p>整合生理檢查數據與護理筆記，利用 AI 自動生成第一人稱生活日誌，解決長者家屬的溝通斷層與焦慮。</p>
+                <p>利用 AI 自動生成長者生活日誌，解決照護溝通痛點，包含台語語音播報功能。</p>
                 <div class="project-links">
                     <a href="https://github.com/Grandparents666" target="_blank">GitHub</a>
                 </div>
             </div>
-
             <div class="project-card">
                 <h3>英語字彙學習遊戲</h3>
-                <p>結合學習科學理論，開發響應式網頁單字遊戲，優化行動裝置學習體驗。</p>
+                <p>結合學習科學理論，開發跨平台響應式單字學習遊戲。</p>
                 <div class="project-links">
-                    <a href="https://github.com/SimonpaulLai/5kVocabulary" target="_blank">Demo (Desktop)</a>
+                    <a href="#" target="_blank">Demo</a>
                 </div>
             </div>
-
             <div class="project-card">
                 <h3>Socratic LineBot</h3>
-                <p>獨立開發蘇格拉底式引導教學機器人，透過 Python 與 AI API 協助使用者進行深度思考。</p>
+                <p>獨立開發蘇格拉底式引導教學機器人，協助使用者進行深度思考。</p>
                 <div class="project-links">
                     <span>Python / NLP</span>
                 </div>
             </div>
-
             <div class="project-card">
                 <h3>Fu Tea 永續茶園網站</h3>
-                <p>結合英語寫作與品牌行銷，針對 SDG 12 進行數位轉型敘事設計。</p>
+                <p>結合英語寫作與品牌行銷，針對 SDG 12 進行敘事設計。</p>
                 <div class="project-links">
                     <a href="https://40911011e.wixsite.com/fu-tea" target="_blank">Visit Site</a>
                 </div>
             </div>
-
         </div>
     </section>
 
