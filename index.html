@@ -7,37 +7,37 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Serif+TC:wght@500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* 進化版白天晴空配色 */
-            --bg-light: #f0f9ff;   /* 飽和的晴空藍 */
-            --bg-cloud: #ffffff;
-            --bg-paper: #fef3c7;   /* 飽和的泛黃書頁 */
-            
-            --text-main: #1e293b;
-            --text-sub: #475569;
-            --accent: #0ea5e9;
-            
-            --card-bg: rgba(255, 255, 255, 0.9);
-            --card-shadow: 0 10px 30px rgba(0,0,0,0.03);
-            --border: 1px solid rgba(255,255,255,0.3);
-            --nav-bg: rgba(255, 255, 255, 0.9);
-            
-            --transition: all 0.5s ease-in-out;
-        }
-
-        /* 進化版夜晚星辰配色 */
-        body.dark-mode {
+            /* 預設為深色模式 (夜晚星辰) */
             --bg-light: #0f172a;   /* 深邃星夜藍 */
-            --bg-cloud: #111827;
-            --bg-paper: #1e293b;
+            --bg-cloud: #1e293b;   /* 稍微亮一點的藍灰色，用於卡片區隔 */
+            --bg-paper: #111827;   
             
             --text-main: #f1f5f9;
             --text-sub: #94a3b8;
             --accent: #38bdf8;
             
-            --card-bg: rgba(17, 24, 39, 0.85);
+            --card-bg: rgba(30, 41, 59, 0.7); /* 修正：專案卡片顏色，確保能與背景區分 */
             --card-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            --border: 1px solid rgba(255,255,255,0.05);
+            --border: 1px solid rgba(255,255,255,0.1);
             --nav-bg: rgba(15, 23, 42, 0.9);
+            
+            --transition: all 0.3s ease-in-out;
+        }
+
+        /* 根據系統設定改為淺色 (白天版) */
+        @media (prefers-color-scheme: light) {
+            :root {
+                --bg-light: #f0f9ff;
+                --bg-cloud: #ffffff;
+                --bg-paper: #fef3c7;
+                --text-main: #1e293b;
+                --text-sub: #475569;
+                --accent: #0ea5e9;
+                --card-bg: rgba(255, 255, 255, 0.9);
+                --card-shadow: 0 10px 30px rgba(0,0,0,0.03);
+                --border: 1px solid rgba(0,0,0,0.05);
+                --nav-bg: rgba(255, 255, 255, 0.9);
+            }
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -51,50 +51,62 @@
             overflow-x: hidden;
         }
 
-        /* 星星背景效果 (僅在深色模式顯示) */
+        /* 星星背景效果 (自動隨系統深色開啟) */
         .stars {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; opacity: 0; transition: opacity 1s;
-            background: transparent;
-        }
-        body.dark-mode .stars {
-            opacity: 1;
             background-image: 
                 radial-gradient(1.5px 1.5px at 20px 30px, #eee, rgba(0,0,0,0)),
                 radial-gradient(1px 1px at 40px 70px, #fff, rgba(0,0,0,0)),
-                radial-gradient(1px 1px at 50px 160px, #ddd, rgba(0,0,0,0)),
                 radial-gradient(1px 1px at 80px 120px, #fff, rgba(0,0,0,0)),
-                radial-gradient(1.5px 1.5px at 110px 210px, #eee, rgba(0,0,0,0)),
-                radial-gradient(1px 1px at 150px 40px, #fff, rgba(0,0,0,0));
+                radial-gradient(1.5px 1.5px at 110px 210px, #eee, rgba(0,0,0,0));
             background-size: 200px 200px;
         }
+        @media (prefers-color-scheme: dark) { .stars { opacity: 1; } }
 
-        /* Navigation - 靠右且從右往左排 */
+        /* Navigation */
         nav {
             position: sticky; top: 0; background: var(--nav-bg);
             backdrop-filter: blur(15px); padding: 0.8rem 5%;
             display: flex; justify-content: space-between; align-items: center;
-            z-index: 1000; border-bottom: 1px solid rgba(0,0,0,0.05);
-            transition: var(--transition);
+            z-index: 1000; border-bottom: 1px solid rgba(255,255,255,0.05);
         }
-        .logo { font-weight: 600; font-size: 1.1rem; text-decoration: none; color: var(--text-main); cursor: pointer; }
+        .logo { font-weight: 600; font-size: 1.1rem; text-decoration: none; color: var(--text-main); }
         
-        .nav-container { display: flex; align-items: center; gap: 30px; }
+        /* 導覽列容器 */
+        .nav-menu { display: flex; align-items: center; }
+        
+        /* 桌面版選單 */
         nav ul { 
-            display: flex; list-style: none; 
-            flex-direction: row-reverse; /* 從右往左排 */
-            gap: 25px; 
+            display: flex; list-style: none; gap: 25px; 
+            flex-direction: row-reverse;
         }
-        nav a { text-decoration: none; color: var(--text-sub); font-size: 0.9rem; font-weight: 500; }
+        nav a { text-decoration: none; color: var(--text-sub); font-size: 0.9rem; font-weight: 500; transition: 0.3s; }
         nav a:hover { color: var(--accent); }
 
-        #theme-toggle { background: none; border: none; cursor: pointer; font-size: 1.1rem; }
+        /* 漢堡選單按鈕 (預設隱藏) */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: 1px solid var(--text-sub);
+            padding: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .menu-toggle span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            background-color: var(--text-main);
+            transition: var(--transition);
+        }
 
-        /* Sections - 取消漸層，強調純色純晴空 */
-        section { padding: 100px 8%; max-width: 100%; margin: 0 auto; transition: background-color 0.5s; }
+        /* Section 通用樣式 */
+        section { padding: 100px 8%; max-width: 100%; margin: 0 auto; }
         section:nth-child(odd) { background-color: var(--bg-light); }
         section:nth-child(even) { background-color: var(--bg-paper); }
-        
         .section-content { max-width: 1000px; margin: 0 auto; }
 
         h2 { 
@@ -105,17 +117,16 @@
 
         /* Header */
         header { padding: 160px 8% 120px; text-align: center; background-color: var(--bg-cloud); }
-        #dynamic-name { font-family: 'Noto Serif TC', serif; font-size: clamp(2.2rem, 8vw, 3.8rem); font-weight: 600; height: 100px; }
+        #dynamic-name { font-family: 'Noto Serif TC', serif; font-size: clamp(2.2rem, 8vw, 3.8rem); font-weight: 600; height: 100px; transition: opacity 0.5s; }
         .hero-subtitle { font-size: 1.2rem; font-weight: 300; color: var(--text-sub); letter-spacing: 2px; margin-bottom: 40px; }
-        .hero-links a { margin: 0 10px; text-decoration: none; color: var(--text-main); font-size: 0.95rem; border-bottom: 1px solid #ccc; padding-bottom: 5px; }
+        .hero-links a { margin: 0 10px; text-decoration: none; color: var(--text-main); font-size: 0.95rem; border-bottom: 1px solid var(--text-sub); padding-bottom: 5px; }
 
         /* Card Styles */
         .card {
             background: var(--card-bg); backdrop-filter: blur(10px);
-            border-radius: 24px; padding: 50px;
+            border-radius: 24px; padding: 40px;
             box-shadow: var(--card-shadow); margin-bottom: 40px;
             border: var(--border);
-            transition: var(--transition);
         }
 
         .cv-item { margin-bottom: 45px; }
@@ -123,37 +134,46 @@
         .cv-title { font-size: 1.3rem; font-weight: 600; }
         
         .tag-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; margin-bottom: 15px; }
-        .tag { background: #fff; border: 1px solid #eee; padding: 4px 12px; border-radius: 8px; font-size: 0.85rem; color: #555; transition: var(--transition); }
-        body.dark-mode .tag { background: #334155; border-color: #475569; color: #cbd5e1; }
+        .tag { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 4px 12px; border-radius: 8px; font-size: 0.85rem; color: var(--text-sub); }
 
-        /* Projects */
-        .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 30px; }
-        .project-card { background: var(--bg-cloud); border-radius: 20px; padding: 35px; display: flex; flex-direction: column; height: 100%; }
+        /* Projects Grid */
+        .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+        .project-card { 
+            background: var(--bg-cloud); /* 修正：使用較亮的背景色 */
+            border-radius: 20px; padding: 35px; 
+            border: var(--border);
+            display: flex; flex-direction: column; transition: transform 0.3s;
+        }
+        .project-card:hover { transform: translateY(-5px); }
         .project-card h4 { font-size: 1.2rem; margin-bottom: 15px; color: var(--text-main); }
         .project-card p { font-size: 0.95rem; color: var(--text-sub); flex-grow: 1; margin-bottom: 25px; }
-        
-        .project-links { display: flex; flex-wrap: wrap; gap: 15px; }
-        .project-links a { font-size: 0.85rem; font-weight: 600; color: var(--accent); text-decoration: none; border: 1px solid var(--accent); padding: 5px 12px; border-radius: 20px; transition: 0.3s; }
-        .project-links a:hover { background: var(--accent); color: #fff; }
 
-        /* Skills重排 (項目清單佈局) */
-        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 50px; }
-        .skill-cat h4 { font-size: 1rem; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; color: var(--text-main); }
-        .skill-list { list-style: none; font-size: 0.9rem; color: var(--text-sub); }
-        .skill-list li { margin-bottom: 8px; padding-left: 15px; position: relative; }
-        .skill-list li::before { content: "•"; position: absolute; left: 0; color: var(--accent); }
+        /* Footer */
+        footer { text-align: center; padding: 80px 0; font-size: 0.85rem; color: var(--text-sub); letter-spacing: 1px; }
 
-        /* Experience Ordering */
-        .tutor-highlight { border-left: 4px solid var(--accent); padding-left: 20px; }
-        .minor-exp { opacity: 0.8; font-size: 0.9rem; margin-top: 40px; border-top: 1px solid #ddd; padding-top: 30px; }
-
-        footer { text-align: center; padding: 100px 0; font-size: 0.8rem; color: var(--text-sub); letter-spacing: 2px; }
-
+        /* Responsive Design */
         @media (max-width: 768px) {
-            nav ul { display: none; }
-            .cv-header { flex-direction: column; }
+            .menu-toggle { display: flex; } /* 顯示漢堡按鈕 */
+            
+            nav ul {
+                display: none; /* 預設隱藏選單 */
+                position: absolute;
+                top: 100%; right: 5%;
+                background: var(--nav-bg);
+                flex-direction: column;
+                width: 200px;
+                padding: 20px;
+                border-radius: 12px;
+                border: var(--border);
+                box-shadow: var(--card-shadow);
+                gap: 15px;
+                text-align: right;
+            }
+            nav ul.active { display: flex; } /* 點擊後顯示 */
+            
             section { padding: 60px 5%; }
-            #dynamic-name { font-size: 2.2rem; height: 90px; }
+            .cv-header { flex-direction: column; gap: 5px; }
+            #dynamic-name { font-size: 2.2rem; height: 80px; }
         }
     </style>
 </head>
@@ -163,14 +183,18 @@
 
     <nav>
         <a href="#top" class="logo">Simonpaul Lai</a>
-        <div class="nav-container">
-            <ul>
-                <li><a href="#experience">經歷</a></li>
+        <div class="nav-menu">
+            <button class="menu-toggle" id="menu-btn" aria-label="Toggle Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul id="nav-list">
+                <li><a href="#experience">工作與服務背景</a></li>
                 <li><a href="#skills">技能</a></li>
                 <li><a href="#projects">專案</a></li>
                 <li><a href="#background">教育背景</a></li>
             </ul>
-            <button id="theme-toggle">☀️</button>
         </div>
     </nav>
 
@@ -195,24 +219,14 @@
                     </div>
                     <p style="margin-top: 10px;">核心領域：AI 應用研究。</p>
                 </div>
-                
                 <div class="cv-item" style="margin-bottom: 0;">
                     <div class="cv-header">
                         <span class="cv-title">國立臺灣師範大學 (NTNU) | 學習科學 (雙主修：英語)</span>
                         <span style="color: var(--text-sub);">2020.09 – 2025.01</span>
                     </div>
-                    
-                    <span class="edu-label">核心領域（主）</span>
                     <div class="tag-container">
-                        <span class="tag">程式設計</span><span class="tag">AI</span><span class="tag">資料視覺化</span><span class="tag">教育心理</span><span class="tag">統計</span>
+                        <span class="tag">程式設計</span><span class="tag">AI</span><span class="tag">資料視覺化</span><span class="tag">英語演講</span>
                     </div>
-
-                    <span class="edu-label">核心領域（雙）</span>
-                    <div class="tag-container">
-                        <span class="tag">英語演講</span><span class="tag">簡報</span><span class="tag">寫作</span><span class="tag">數位敘事</span>
-                    </div>
-
-                    <p style="font-size: 0.9rem; color: var(--text-sub); font-style: italic; margin-top: 15px;">提早於 4.5 年（大五上）修畢雙學位學分。</p>
                 </div>
             </div>
         </div>
@@ -224,111 +238,39 @@
             <div class="project-grid">
                 <div class="project-card">
                     <h4>「安心記」銀髮照護 AI 系統</h4>
-                    <p>利用 AI 自動生成第一人稱生活日誌與 Q 版圖片，解決 50+ 歲中高齡家屬溝通斷層。</p>
-                    <div class="project-links">
-                        <a href="https://github.com/Grandparents666" target="_blank">GitHub</a>
-                        <a href="#" target="_blank">Website</a>
-                    </div>
+                    <p>利用 AI 自動生成第一人稱生活日誌與 Q 版圖片，優化家屬溝通體驗。</p>
                 </div>
                 <div class="project-card">
-                    <h4>英語字彙學習遊戲 (跨平台版本)</h4>
-                    <p>針對單字學習痛點設計遊戲化互動機制，優化 Desktop 與 Mobile 雙端介面體驗。</p>
-                    <div class="project-links">
-                        <a href="https://simonpaullai.github.io/5kVocabulary" target="_blank">Desktop</a>
-                        <a href="#" target="_blank">Mobile</a>
-                    </div>
+                    <h4>Socratic LineBot</h4>
+                    <p>透過 Python 與 AI 串接，開發蘇格拉底式引導教學機器人，協助深度思考。</p>
                 </div>
-                <div class="project-card">
-                    <h4>Socratic LineBot (畢業專題)</h4>
-                    <p>獨立開發蘇格拉底式引導教學機器人，透過 Python 與 Line Messaging API 和 AI API 串接，協助使用者進行深度思考與自主學習。</p>
-                    <p style="font-size: 0.85rem; color: var(--text-sub); margin-top: 10px;">Python / NLP / Line API</p>
-                </div>
-                <div class="project-card">
-                    <h4>Fu Tea：永續茶園品牌網站</h4>
-                    <p>結合英語寫作與品牌行銷，針對 SDG 12 的宜蘭永續茶園進行數位轉型敘事設計。</p>
-                    <div class="project-links"><a href="https://40911011e.wixsite.com/fu-tea" target="_blank">Visit Site</a></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="skills">
-        <div class="section-content">
-            <h2>專業技能</h2>
-            <div class="card">
-                <div class="skills-grid">
-                    <div class="skill-cat">
-                        <h4>語言與溝通</h4>
-                        <ul class="skill-list">
-                            <li>TOEIC 935 (Gold)</li>
-                            <li>英語公眾演說、簡報</li>
-                            <li>數位敘事寫作</li>
-                        </ul>
-                    </div>
-                    <div class="skill-cat">
-                        <h4>程式開發</h4>
-                        <ul class="skill-list">
-                            <li>Python (資料處理, 應用程式設計)</li>
-                            <li>JavaScript (網頁開發)</li>
-                            <li>iOS Shortcuts、App 介面設計</li>
-                            <li>Git 版本控制</li>
-                            <li>API 串接概念</li>
-                        </ul>
-                    </div>
-                    <div class="skill-cat">
-                        <h4>AI 實務</h4>
-                        <ul class="skill-list">
-                            <li>Vibe Coding 實務</li>
-                            <li>Prompt Engineering</li>
-                            <li>NLP 應用</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="shortcuts">
-        <div class="section-content">
-            <h2>iOS Shortcuts</h2>
-            <div style="background: var(--bg-cloud); border: 1px dashed var(--text-sub); padding: 60px; text-align: center; border-radius: 20px; color: #999;">
-                <p>Developing... 檔案過大優化中</p>
             </div>
         </div>
     </section>
 
     <section id="experience">
         <div class="section-content">
-            <h2>經歷</h2>
-            <div class="card tutor-highlight">
+            <h2>工作與服務背景</h2> <div class="card" style="border-left: 4px solid var(--accent);">
                 <div class="cv-header">
                     <span class="cv-title">英語家教</span>
                     <span style="color: var(--text-sub);">2025 – 至今</span>
                 </div>
                 <p style="font-size: 0.95rem; color: var(--text-sub);">針對學生需求分析考題趨勢，制定個人化學習策略。</p>
             </div>
-
-            <div class="minor-exp">
+            
+            <div style="opacity: 0.8; font-size: 0.9rem; margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 30px;">
                 <div class="cv-item">
                     <div class="cv-header">
-                        <span class="cv-title" style="font-size: 1.1rem; color: var(--text-main);">NTNU 圖資所碩士班招生面試 | 工作人員</span>
-                        <span style="font-size: 0.85rem; color: var(--text-sub);">2026.02</span>
+                        <span class="cv-title" style="font-size: 1.1rem;">NTNU 圖資所碩士班招生面試 | 工作人員</span>
+                        <span style="color: var(--text-sub);">2026.02</span>
                     </div>
-                </div>
-                <div class="cv-item" style="margin-bottom: 0;">
-                    <div class="cv-header">
-                        <span class="cv-title" style="font-size: 1.1rem; color: var(--text-main);">CoLISP 2025 實務研討會 | 工作人員</span>
-                        <span style="font-size: 0.85rem; color: var(--text-sub);">2025.11</span>
-                    </div>
-                    <p style="font-size: 0.85rem; color: var(--text-sub);">負責報到管理、貴賓接待與海報展投票計票作業。</p>
                 </div>
             </div>
         </div>
     </section>
 
     <footer>
-        <p>VIBE CODING WITH GEMINI醬醬醬！！</p>
-    </footer>
+        <p>© Designed by 賴柏澔。</p> </footer>
 
     <script>
         // 名字輪播
@@ -344,20 +286,20 @@
             }, 500);
         }, 3500);
 
-        // 深淺色模式與星星視覺切換
-        const themeToggle = document.getElementById('theme-toggle');
-        const body = document.body;
-        themeToggle.addEventListener('click', () => {
-            body.classList.toggle('dark-mode');
-            themeToggle.innerText = body.classList.contains('dark-mode') ? '🌙' : '☀️';
+        // 漢堡選單切換
+        const menuBtn = document.getElementById('menu-btn');
+        const navList = document.getElementById('nav-list');
+        
+        menuBtn.addEventListener('click', () => {
+            navList.classList.toggle('active');
         });
 
-        // 根據時間自動設定模式
-        const hour = new Date().getHours();
-        if (hour < 6 || hour > 18) {
-            body.classList.add('dark-mode');
-            themeToggle.innerText = '🌙';
-        }
+        // 點擊選單項目後自動關閉選單 (手機版)
+        document.querySelectorAll('#nav-list a').forEach(link => {
+            link.addEventListener('click', () => {
+                navList.classList.remove('active');
+            });
+        });
     </script>
 </body>
 </html>
