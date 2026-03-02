@@ -7,16 +7,53 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Serif+TC:wght@500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* 三原色調優化 */
-            --sky-blue-deep: #dbeafe;   /* 深一點的天藍 */
-            --sky-blue-light: #f0f9ff;  /* 淺天藍 */
-            --book-yellow: #fffbeb;     /* 泛黃書頁 */
-            --cloud-gray: #f9fafb;      /* 雲朵灰 */
+            /* Base Deeper Colors (Light Mode) */
+            --sky-blue-deep: #7dd3fc;   /* More saturated sky blue */
+            --sky-blue-light: #e0f2fe;  /* Lighter, deeper blue */
+            --book-yellow: #fef3c7;     /* Saturated vintage paper */
+            --cloud-gray: #e5e7eb;      /* Clearer gray for cloud */
             
-            --text-main: #2c3e50;
-            --text-sub: #64748b;
-            --accent: #3498db;
-            --transition: all 0.5s ease-in-out;
+            /* Text Colors */
+            --text-main: #1f2937;
+            --text-sub: #4b5563;
+            --accent: #2563eb;
+            --tag-bg: #fff;
+            --tag-text: #374151;
+            
+            /* Backgrounds and Card Defaults */
+            --bg-light: #ffffff;
+            --bg-body: var(--sky-blue-deep);
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --card-shadow: 0 10px 30px rgba(0,0,0,0.06);
+            --border: 1px solid rgba(0,0,0,0.06);
+
+            --transition: all 0.4s ease-in-out;
+            --nav-bg: rgba(255, 255, 255, 0.95);
+        }
+
+        /* Dark Mode Colors - Will be applied when 'dark-mode' class is on body or via system preference */
+        body.dark-mode {
+            /* Base Deeper Colors (Dark Mode) */
+            --sky-blue-deep: #0ea5e9;   /* Darker, saturated deep blue */
+            --sky-blue-light: #075985;  /* Lighter, very deep blue */
+            --book-yellow: #a16207;     /* Darker, saturated vintage paper */
+            --cloud-gray: #4b5563;      /* Deeper cloud gray */
+            
+            /* Text Colors */
+            --text-main: #f3f4f6;
+            --text-sub: #d1d5db;
+            --accent: #60a5fa;
+            --tag-bg: #1f2937;
+            --tag-text: #e5e7eb;
+            
+            /* Backgrounds and Card Defaults */
+            --bg-light: #111827;
+            --bg-body: var(--sky-blue-deep);
+            --card-bg: rgba(17, 24, 39, 0.85);
+            --card-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            --border: 1px solid rgba(255,255,255,0.08);
+            
+            --nav-bg: rgba(17, 24, 39, 0.95);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -26,101 +63,156 @@
             color: var(--text-main);
             line-height: 1.8;
             scroll-behavior: smooth;
+            transition: background-color var(--transition), color var(--transition);
         }
 
-        /* Navigation - 修復縮小消失問題 */
+        /* --- Navigation - Redesigned to Hamburger --- */
         nav {
-            position: sticky; top: 0; background: rgba(255, 255, 255, 0.9);
+            position: sticky; top: 0; background: var(--nav-bg);
             backdrop-filter: blur(15px); padding: 0.8rem 5%;
             display: flex; justify-content: space-between; align-items: center;
-            flex-wrap: wrap; /* 允許自動換行避免消失 */
             z-index: 1000; border-bottom: 1px solid rgba(0,0,0,0.05);
+            transition: background-color var(--transition);
         }
         .logo { 
             font-weight: 600; font-size: 1.1rem; text-decoration: none; 
-            color: var(--text-main); cursor: pointer; min-width: 150px;
+            color: var(--text-main); cursor: pointer;
         }
-        nav ul { display: flex; list-style: none; gap: 20px; }
+
+        /* Main link container - hidden on smaller screens */
+        nav ul { display: flex; list-style: none; gap: 30px; }
+        
+        /* Mobile Overlay Menu Styles - Hidden by default */
+        @media (max-width: 991px) {
+            nav ul {
+                display: none; /* Initially hidden */
+                position: fixed; top: 100%; left: 0; width: 100%; 
+                background: var(--nav-bg); padding: 30px 5%;
+                flex-direction: column; align-items: center; gap: 20px;
+                border-top: 1px solid rgba(0,0,0,0.05);
+                transition: var(--transition);
+                z-index: 999;
+            }
+            nav ul.active { display: flex; transform: translateY(-100%); } /* Slide down when active */
+        }
+
+        /* Link Styles in standard nav */
         nav a { text-decoration: none; color: var(--text-sub); font-size: 0.85rem; font-weight: 500; }
         nav a:hover { color: var(--accent); }
 
+        /* Mobile Controls - Theme Toggle & Hamburger */
+        #nav-controls { display: flex; align-items: center; gap: 15px; }
+
+        /* Dark Mode Toggle Button */
+        #theme-toggle {
+            background: none; border: none; cursor: pointer; color: var(--text-sub); font-size: 1.1rem; padding: 5px; transition: color 0.3s;
+        }
+        #theme-toggle:hover { color: var(--text-main); }
+        #theme-icon { display: flex; align-items: center; justify-content: center; }
+
+        /* Hamburger Toggle Button */
+        #menu-toggle {
+            background: none; border: none; cursor: pointer;
+            padding: 5px; display: none; /* Hidden on large screens */
+        }
+        @media (max-width: 991px) { #menu-toggle { display: block; } }
+
+        #menu-toggle svg { fill: var(--text-main); width: 25px; height: 18px; transition: fill var(--transition); }
+        
+        /* Transition animation on hamburger for 'active' state */
+        #menu-toggle.active svg rect:nth-child(1) { transform: rotate(45deg) translate(2px, 2px); transform-origin: top left; }
+        #menu-toggle.active svg rect:nth-child(2) { opacity: 0; }
+        #menu-toggle.active svg rect:nth-child(3) { transform: rotate(-45deg) translate(2px, -2px); transform-origin: bottom left; }
+
+        /* Standard menu is visible on larger screens, from our base definition above */
+
+
         /* Hero */
         header { 
-            padding: 160px 8% 120px; text-align: center; 
-            background: linear-gradient(180deg, #ffffff 0%, var(--sky-blue-deep) 100%);
+            padding: 180px 8% 120px; text-align: center; 
+            background: linear-gradient(180deg, var(--bg-light) 0%, var(--sky-blue-deep) 100%);
         }
         #dynamic-name { 
-            font-family: 'Noto Serif TC', serif; font-size: clamp(2.5rem, 8vw, 3.8rem); 
-            font-weight: 600; height: 100px; opacity: 1; transition: var(--transition);
+            font-family: 'Noto Serif TC', serif; font-size: clamp(2rem, 8vw, 3.8rem); 
+            font-weight: 600; height: 110px; opacity: 1; transition: opacity var(--transition);
             margin-bottom: 10px;
         }
         .hero-subtitle { font-size: 1.2rem; font-weight: 300; color: var(--text-sub); letter-spacing: 2px; margin-bottom: 40px; }
+        .hero-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
         .hero-links a { 
-            margin: 0 10px; text-decoration: none; color: var(--text-main); 
-            font-size: 0.9rem; border-bottom: 1px solid #ccc; padding-bottom: 5px;
+            text-decoration: none; color: var(--text-main); 
+            font-size: 0.95rem; font-weight: 500; border-bottom: 1px solid #ccc; padding-bottom: 5px;
+            white-space: nowrap;
         }
 
-        /* Section Gradients - 創造邊界感 */
-        section { padding: 100px 8%; max-width: 100%; margin: 0 auto; }
+        /* Section Gradients - 創造邊界感 with Deeper Colors */
+        section { padding: 120px 8%; max-width: 100%; margin: 0 auto; }
         section:nth-child(odd) { background: linear-gradient(180deg, var(--sky-blue-deep) 0%, var(--cloud-gray) 100%); }
         section:nth-child(even) { background: linear-gradient(180deg, var(--cloud-gray) 0%, var(--book-yellow) 100%); }
         
         .section-content { max-width: 1000px; margin: 0 auto; }
 
         h2 { 
-            font-size: 2rem; font-family: 'Noto Serif TC', serif; 
-            margin-bottom: 50px; color: var(--text-main); text-align: center;
+            font-size: 2.2rem; font-family: 'Noto Serif TC', serif; 
+            margin-bottom: 60px; color: var(--text-main); position: relative;
         }
+        h2::after { content: ''; position: absolute; left: 0; bottom: -10px; width: 40px; height: 3px; background: var(--accent); }
 
-        /* Education & Experience Cards */
+        /* Education & Experience Cards with Card styles */
         .card {
-            background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px);
-            border-radius: 24px; padding: 40px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.03); margin-bottom: 40px;
-            border: 1px solid rgba(255,255,255,0.5);
+            background: var(--card-bg); backdrop-filter: blur(10px);
+            border-radius: 24px; padding: 50px;
+            box-shadow: var(--card-shadow); margin-bottom: 40px;
+            border: var(--border);
+            transition: background-color var(--transition), color var(--transition);
         }
 
-        .cv-item { margin-bottom: 40px; }
+        .cv-item { margin-bottom: 45px; }
         .cv-header { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; margin-bottom: 15px; }
-        .cv-title { font-size: 1.25rem; font-weight: 600; }
-        .cv-date { color: var(--text-sub); font-size: 0.9rem; }
+        .cv-title { font-size: 1.3rem; font-weight: 600; }
+        .cv-date { color: var(--text-sub); font-size: 0.95rem; }
 
         /* Tagged Education */
-        .edu-label { font-size: 0.9rem; font-weight: 600; color: var(--text-sub); margin-top: 15px; display: block; }
+        .edu-label { font-size: 0.95rem; font-weight: 600; color: var(--text-sub); margin-top: 15px; display: block; }
         .tag-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; margin-bottom: 15px; }
         .tag { 
-            background: #fff; border: 1px solid #eee; padding: 4px 12px; 
-            border-radius: 8px; font-size: 0.85rem; color: #555;
+            background: var(--tag-bg); border: 1px solid #eee; padding: 5px 12px; 
+            border-radius: 8px; font-size: 0.9rem; color: var(--tag-text);
+            transition: var(--transition);
         }
 
         /* Projects */
-        .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
+        .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 30px; }
         .project-card { 
-            background: #fff; border-radius: 20px; padding: 30px; 
+            background: var(--bg-light); border-radius: 20px; padding: 35px; 
             transition: 0.4s; display: flex; flex-direction: column; height: 100%;
         }
-        .project-card:hover { transform: translateY(-8px); box-shadow: 0 15px 35px rgba(0,0,0,0.08); }
-        .project-card h4 { font-size: 1.15rem; margin-bottom: 12px; }
-        .project-card p { font-size: 0.9rem; color: #555; flex-grow: 1; margin-bottom: 20px; }
-        .project-links a { font-size: 0.85rem; font-weight: 600; color: var(--accent); text-decoration: none; margin-right: 15px; }
+        .project-card:hover { transform: translateY(-8px); box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
+        .project-card h4 { font-size: 1.2rem; margin-bottom: 15px; color: var(--text-main); }
+        .project-card p { font-size: 0.95rem; color: var(--text-sub); flex-grow: 1; margin-bottom: 25px; }
+        .project-links a { font-size: 0.85rem; font-weight: 600; color: var(--accent); text-decoration: none; margin-right: 20px; }
 
         /* Skills */
-        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; }
-        .skill-cat h4 { font-size: 0.95rem; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 8px; }
-        .skill-list { list-style: none; font-size: 0.85rem; color: #555; }
-        .skill-list li { margin-bottom: 6px; padding-left: 12px; position: relative; }
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 50px; }
+        .skill-cat h4 { font-size: 1rem; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; color: var(--text-main); }
+        .skill-list { list-style: none; font-size: 0.9rem; color: var(--text-sub); }
+        .skill-list li { margin-bottom: 8px; padding-left: 15px; position: relative; }
         .skill-list li::before { content: "•"; position: absolute; left: 0; color: var(--accent); }
+
+        /* Shortcuts Area */
+        .placeholder-box { background: var(--bg-light); border: 1px dashed var(--text-sub); padding: 60px; text-align: center; border-radius: 20px; color: var(--text-sub); }
 
         /* Experience Specific */
         .tutor-highlight { border-left: 4px solid var(--accent); padding-left: 20px; }
         .minor-exp { opacity: 0.8; font-size: 0.95rem; margin-top: 40px; border-top: 1px solid #ddd; padding-top: 30px; }
 
-        footer { text-align: center; padding: 80px 0; font-size: 0.75rem; color: var(--text-sub); letter-spacing: 2px; }
+        footer { text-align: center; padding: 100px 0; font-size: 0.8rem; color: var(--text-sub); letter-spacing: 2px; }
 
         @media (max-width: 600px) {
             nav { justify-content: center; gap: 10px; }
             .cv-header { flex-direction: column; }
             section { padding: 60px 5%; }
+            #dynamic-name { font-size: 2.2rem; height: 90px; }
         }
     </style>
 </head>
@@ -128,12 +220,26 @@
 
     <nav>
         <a href="#top" class="logo">Simonpaul Lai</a>
-        <ul>
+        
+        <ul id="nav-links">
             <li><a href="#background">背景</a></li>
             <li><a href="#projects">專案</a></li>
             <li><a href="#skills">技能</a></li>
             <li><a href="#experience">經歷</a></li>
         </ul>
+        
+        <div id="nav-controls">
+            <button id="theme-toggle" aria-label="切換深淺色模式">
+                <span id="theme-icon">☀️</span> </button>
+            
+            <button id="menu-toggle" aria-label="展開導覽選單">
+                <svg width="25" height="18" viewBox="0 0 25 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="25" height="3" rx="1.5"/>
+                    <rect y="7.5" width="25" height="3" rx="1.5"/>
+                    <rect y="15" width="25" height="3" rx="1.5"/>
+                </svg>
+            </button>
+        </div>
     </nav>
 
     <header>
@@ -155,7 +261,7 @@
                         <span class="cv-title">國立臺灣師範大學 (NTNU) | 圖資所 碩士班</span>
                         <span class="cv-date">2025.09 – 2027.06 (預計)</span>
                     </div>
-                    <p style="font-size: 0.95rem;">核心領域：AI 應用研究。</p>
+                    <p style="font-size: 0.95rem; color: var(--text-sub);">核心領域：AI 應用研究。</p>
                 </div>
                 
                 <div class="cv-item" style="margin-bottom: 0;">
@@ -174,7 +280,7 @@
                         <span class="tag">英語演講</span><span class="tag">簡報</span><span class="tag">寫作</span><span class="tag">數位敘事</span>
                     </div>
 
-                    <p style="font-size: 0.9rem; color: #777; font-style: italic; margin-top: 10px;">提早於 4.5 年（大五上）修畢雙學位學分。</p>
+                    <p style="font-size: 0.9rem; color: var(--text-sub); font-style: italic; margin-top: 10px;">提早於 4.5 年（大五上）修畢雙學位學分。</p>
                 </div>
             </div>
         </div>
@@ -185,23 +291,23 @@
             <h2>專案經歷</h2>
             <div class="project-grid">
                 <div class="project-card">
-                    <h4>「安心記」銀髮照護 AI 系統</h4>
-                    <p>與清福養老院合作。整合生理數據與護理備註，利用 AI 自動生成第一人稱生活日誌與 Q 版圖片，解決 50+ 歲家屬溝通斷層並減輕照護負擔。</p>
+                    <h4>「安心記」銀髮照護 AI 日誌系統</h4>
+                    <p>與清福養老院合作。整合生理數據與護理備註，利用 AI 自動生成第一人稱生活日誌與 Q 版圖片，解決 50+ 歲中高齡家屬溝通斷層並減輕照護人力負擔，並規劃台語語音播報功能。</p>
                     <div class="project-links"><a href="https://github.com/Grandparents666" target="_blank">GitHub</a></div>
                 </div>
                 <div class="project-card">
                     <h4>英語字彙學習遊戲 (跨平台)</h4>
-                    <p>整合學習科學理論，設計遊戲化互動機制優化 Desktop 與 Mobile 雙端體驗。針對單字學習痛點，於 2026 年初完成行動端優化。</p>
+                    <p>整合學習科學理論，針對單字學習痛點設計遊戲化互動機制，優化 Desktop 與 Mobile 雙端介面體驗，並於 2026 年初完成行動端介面優化。</p>
                     <div class="project-links"><a href="https://simonpaullai.github.io/5kVocabulary" target="_blank">Demo</a></div>
                 </div>
                 <div class="project-card">
-                    <h4>Socratic LineBot</h4>
-                    <p>畢業專題。開發蘇格拉底式引導教學機器人，透過 Python 與 AI API 串接，協助使用者進行深度思考與自主學習。</p>
-                    <div class="project-links"><span>Python / Line API</span></div>
+                    <h4>Socratic LineBot (畢業專題)</h4>
+                    <p>開發蘇格拉底式引導教學機器人，透過 Python 與 Line Messaging API 和 AI API 串接，協助使用者進行深度思考與自主學習。</p>
+                    <div class="project-links"><span>Python / NLP / Line API</span></div>
                 </div>
                 <div class="project-card">
-                    <h4>Fu Tea：永續茶園品牌網站</h4>
-                    <p>結合英語寫作與行銷，針對 SDG 12 的宜蘭永續茶園進行數位轉型敘事設計，將複雜產業故事轉為具吸引力的視覺素材。</p>
+                    <h4>Fu Tea：永續茶園品牌網站敘事設計</h4>
+                    <p>結合英語寫作與品牌行銷，針對 SDG 12 的宜蘭永續茶園進行數位轉型敘事設計，將複雜的產業故事轉化為具吸引力的視覺素材。</p>
                     <div class="project-links"><a href="https://40911011e.wixsite.com/fu-tea" target="_blank">Visit Site</a></div>
                 </div>
             </div>
@@ -214,11 +320,11 @@
             <div class="skills-grid">
                 <div class="skill-cat">
                     <h4>語言與國際溝通</h4>
-                    <ul class="skill-list"><li>TOEIC 935 (Gold)</li><li>英語公眾演說</li><li>數位敘事寫作</li></ul>
+                    <ul class="skill-list"><li>TOEIC 935 (Gold)</li><li>英語公眾演說、簡報</li><li>英語敘事寫作、數位敘事</li></ul>
                 </div>
                 <div class="skill-cat">
                     <h4>程式開發與 IT</h4>
-                    <ul class="skill-list"><li>Python (資料處理)</li><li>JavaScript (Web)</li><li>iOS Shortcuts</li><li>Git / API 串接</li></ul>
+                    <ul class="skill-list"><li>Python (資料處理, 應用程式設計)</li><li>JavaScript (網頁開發)、iOS Shortcuts</li><li>基礎行動 App 設計</li><li>Git 版本控制 / API 串接概念</li></ul>
                 </div>
                 <div class="skill-cat">
                     <h4>設計與分析</h4>
@@ -226,7 +332,7 @@
                 </div>
                 <div class="skill-cat">
                     <h4>AI 工具實務</h4>
-                    <ul class="skill-list"><li>Vibe Coding 實務</li><li>Prompt Engineering</li><li>NLP 應用</li></ul>
+                    <ul class="skill-list"><li>Vibe Coding 實務</li><li>Prompt Engineering</li><li>自然語言處理 (NLP) 應用</li></ul>
                 </div>
             </div>
         </div>
@@ -235,7 +341,7 @@
     <section id="shortcuts">
         <div class="section-content">
             <h2>iOS Shortcuts</h2>
-            <div style="background: #fff; border: 2px dashed #ddd; padding: 60px; text-align: center; border-radius: 24px; color: #999;">
+            <div class="placeholder-box">
                 <p>Developing... 檔案過大優化中</p>
             </div>
         </div>
@@ -249,22 +355,22 @@
                     <span class="cv-title">英語家教</span>
                     <span class="cv-date">2025 – 至今</span>
                 </div>
-                <p style="font-size: 0.95rem;">針對學生需求分析考題趨勢，制定個人化學習策略，並監督執行成效。</p>
+                <p style="font-size: 0.95rem; color: var(--text-sub);">針對學生需求分析考題趨勢，制定個人化學習策略，並監督執行成效。</p>
             </div>
 
             <div class="minor-exp">
                 <div class="cv-item">
                     <div class="cv-header">
-                        <span class="cv-title" style="font-size: 1.1rem;">NTNU 圖資所碩士班招生面試 | 工作人員</span>
-                        <span class="cv-date">2026.02</span>
+                        <span class="cv-title" style="font-size: 1.1rem; color: var(--text-main);">NTNU 圖資所碩士班招生面試 | 工作人員</span>
+                        <span class="cv-date" style="font-size: 0.85rem; color: var(--text-sub);">2026.02</span>
                     </div>
                 </div>
                 <div class="cv-item" style="margin-bottom: 0;">
                     <div class="cv-header">
-                        <span class="cv-title" style="font-size: 1.1rem;">CoLISP 2025 實務研討會 | 工作人員</span>
-                        <span class="cv-date">2025.11</span>
+                        <span class="cv-title" style="font-size: 1.1rem; color: var(--text-main);">CoLISP 2025 實務研討會 | 學生工作人員</span>
+                        <span class="cv-date" style="font-size: 0.85rem; color: var(--text-sub);">2025.11</span>
                     </div>
-                    <p style="font-size: 0.85rem; color: var(--text-sub);">負責報到管理、貴賓接待與海報展投票計票作業。</p>
+                    <p style="font-size: 0.85rem; color: var(--text-sub);">負責報到管理、貴賓接待與場次技術機動協助，並執行海報展投票計票作業。</p>
                 </div>
             </div>
         </div>
@@ -275,18 +381,65 @@
     </footer>
 
     <script>
+        // 1. Dynamic Name Rotation Scripts
         const nameElement = document.getElementById('dynamic-name');
         const names = ["賴柏澔", "Bo-Hao Lai", "Simonpaul Lai"];
         let currentIndex = 0;
 
         setInterval(() => {
-            nameElement.style.opacity = 0;
+            nameElement.style.opacity = 0; // Start fade out
             setTimeout(() => {
                 currentIndex = (currentIndex + 1) % names.length;
                 nameElement.innerText = names[currentIndex];
-                nameElement.style.opacity = 1;
-            }, 500);
-        }, 3500);
+                nameElement.style.opacity = 1; // End fade out
+            }, 500); // Change text after 0.5s fade out
+        }, 3500); // Rotate every 3.5s
+
+        // 2. Dark Mode Toggle Script
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const body = document.body;
+
+        function updateThemeIcon() {
+            if (body.classList.contains('dark-mode')) {
+                themeIcon.innerText = '🌙'; // Icon for Dark
+            } else {
+                themeIcon.innerText = '☀️'; // Icon for Light
+            }
+        }
+
+        // Initialize theme based on preference and storage
+        if (localStorage.getItem('theme') === 'dark') {
+            body.classList.add('dark-mode');
+        } else if (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            body.classList.add('dark-mode');
+        }
+        updateThemeIcon(); // Set initial icon state
+
+        // Handle click on theme toggle button
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            const newTheme = body.classList.contains('dark-mode') ? 'dark' : 'light';
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(); // Update icon after toggle
+        });
+
+        // 3. Hamburger Menu Toggle Script for Mobile
+        const menuToggle = document.getElementById('menu-toggle');
+        const navLinks = document.getElementById('nav-links');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            menuToggle.classList.toggle('active'); // Animate hamburger to 'X'
+        });
+
+        // Close menu when a link inside is clicked
+        navLinks.addEventListener('click', (event) => {
+            if (event.target.tagName === 'A') {
+                navLinks.classList.remove('active');
+                menuToggle.classList.remove('active');
+            }
+        });
     </script>
 </body>
 </html>
